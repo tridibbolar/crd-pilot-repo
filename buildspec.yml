@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region us-east-1)
+  build:
+    commands:
+      - echo Build started on 'date'
+      - mvn clean compile
+      - mvn package -DskipTests
+      - echo Building the Docker image...       
+      #- docker build -t aym-repo:$CODEBUILD_RESOLVED_SOURCE_VERSION .
+      - docker build -t crd-pilot-repo:v1 .
+      - docker tag crd-pilot-repo:v1 014725595236.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/crd-pilot-repo:v1
+  post_build:
+    commands:
+      - echo Build completed on 'date'
+      - echo Pushing the Docker image...
+      - docker push 014725595236.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/crd-pilot-repo:v1
