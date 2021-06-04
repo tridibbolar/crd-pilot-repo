@@ -12,10 +12,10 @@ phases:
       - mvn package -DskipTests
       - echo Building the Docker image...       
       #- docker build -t aym-repo:$CODEBUILD_RESOLVED_SOURCE_VERSION .
-      #- docker build -t crd-pilot-repo:v1 .
-      #- docker tag crd-pilot-repo:v1 014725595236.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/crd-pilot-repo:v1
+      - docker build -t crd-pilot-repo:v1 .
+      - docker tag crd-pilot-repo:v1 250399887424.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/crd-pilot-repo:v1
   post_build:
     commands:
       - echo Build completed on 'date'
       - echo Pushing the Docker image...
-      #- docker push 014725595236.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/crd-pilot-repo:v1
+      - docker push 250399887424.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/crd-pilot-repo:v1
